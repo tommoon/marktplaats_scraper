@@ -3,8 +3,8 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
-    accessKeyId: 'guest4',
-    secretAccessKey: 'guest4guest4'
+    accessKeyId: 'YOUR_ACCESS_KEY_ID',
+    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY'
 });
 
 module.exports = {
