@@ -1,9 +1,3 @@
-  
-# Introduction  
-  
-This is a full stack solution to Badi's coding challenge to create a flight booking system.  The App runs on React.js and Node.js with a small database powerered by Pouchdb.  
-  
-
 # marktplaats_scraper
 scaper for the SERP of marktplaats
 ## Installation
