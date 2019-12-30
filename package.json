@@ -1,0 +1,16 @@
+{
+  "name": "marktplaats",
+  "version": "1.0.0",
+  "description": "Scraper for Marktplaats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tom Moon",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.595.0",
+    "dotenv": "^8.2.0",
+    "request": "^2.88.0"
+  }
+}
