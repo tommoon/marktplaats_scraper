@@ -1,17 +1,18 @@
 'use strict';
 const fs = require('fs');
 const AWS = require('aws-sdk');
+var csv = require("fast-csv");
 
 const s3 = new AWS.S3({
-    accessKeyId: 'YOUR_ACCESS_KEY_ID',
-    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY'
+    accessKeyId: 'guest4',
+    secretAccessKey: 'guest4guest4'
 });
 
 module.exports = {
-    send: (cat) => {
+    send: (cat,results) => {
         return new Promise(async (resolve, reject) => {
             if (process.env.LOCAL) {
-                saveToLocal(cat)
+                saveToLocal(cat,results)
                     .then(() => {
                         resolve()
                     })
@@ -19,7 +20,7 @@ module.exports = {
                         reject(e)
                     })
             } else {
-                sendToS3(cat)
+                sendToS3(cat,results)
                     .then(() => {
                         resolve()
                     })
@@ -31,32 +32,35 @@ module.exports = {
     }
 };
 
-function sendToS3 (cat) {
+function sendToS3 (cat,results) {
     return new Promise((resolve, reject) => {
-        fs.readFile(__dirname + "/results.csv",'utf-8', (err, data) => {
-            if (err) throw err;
-            const params = {
+        results = results.join("\n");
+        const params = {
                 Bucket: 'daybat4', // pass your bucket name
                 Key: cat + '.csv', // file will be saved as testBucket/contacts.csv
-                Body: data
+                Body: results
             };
             s3.upload(params, async function(s3Err, data) {
                 if (s3Err) {
                     reject()
                 }
-                console.log(`File uploaded successfully at ${data.Location}`)
-                await fs.unlinkSync(__dirname + "/results.csv")
+                console.log(`File uploaded successfully at ${data.Location}`);
                 resolve()
             });
-        });
+
     })
 }
 
-function saveToLocal (cat) {
-    return new Promise( async (resolve, reject) => {
-        let results = await fs.readFileSync(__dirname + "/results.csv",'utf-8');
-        await fs.writeFileSync(__dirname + "/results/" + cat + "_results.csv", results);
-        await fs.unlinkSync(__dirname + "/results.csv")
-        resolve()
+function saveToLocal (cat, results) {
+    return new Promise( async (resolve) => {
+
+        csv
+            .writeToPath(__dirname + "/results/" + cat + ".csv",results,
+                {
+                    headers: false,
+                    delimiter:";"
+                })
+            .on('finish', () =>resolve())
+
     })
 }
