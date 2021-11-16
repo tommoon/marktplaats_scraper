@@ -9,7 +9,7 @@
   "author": "Tom Moon",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.595.0",
+    "aws-sdk": "^2.814.0",
     "dotenv": "^8.2.0",
     "fast-csv": "^4.0.2",
     "request": "^2.88.0"
